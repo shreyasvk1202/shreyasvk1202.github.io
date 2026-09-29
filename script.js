@@ -21,3 +21,49 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 document.getElementById('year').textContent = new Date().getFullYear();
+const typingText = document.getElementById("typing-text");
+
+const roles = [
+  "Software Development Engineer",
+  "AI & Data Science Student",
+  "Problem Solver"
+];
+
+let roleIndex = 0;
+let charIndex = 0;
+let deleting = false;
+
+function typeEffect(){
+
+  const currentRole = roles[roleIndex];
+
+  if(!deleting){
+
+    typingText.textContent =
+      currentRole.substring(0, charIndex + 1);
+
+    charIndex++;
+
+    if(charIndex === currentRole.length){
+      deleting = true;
+      setTimeout(typeEffect, 1800);
+      return;
+    }
+
+  }else{
+
+    typingText.textContent =
+      currentRole.substring(0, charIndex - 1);
+
+    charIndex--;
+
+    if(charIndex === 0){
+      deleting = false;
+      roleIndex = (roleIndex + 1) % roles.length;
+    }
+  }
+
+  setTimeout(typeEffect, deleting ? 50 : 90);
+}
+
+typeEffect();
